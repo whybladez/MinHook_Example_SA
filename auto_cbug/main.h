@@ -1,0 +1,147 @@
+#pragma once
+#include <Windows.h>
+#include "minhook/include/MinHook.h"
+
+namespace nsASI
+{
+	enum eSAFuncs : unsigned long
+	{
+		eFUNC_CWeaponInfo__GetWeaponInfo = 0x743C60
+	};
+
+	namespace getASIPlugin
+	{
+		enum eWeaponType : unsigned int
+		{
+			WEAPON_UNARMED = 0x0,
+			WEAPON_BRASSKNUCKLE = 0x1,
+			WEAPON_GOLFCLUB = 0x2,
+			WEAPON_NIGHTSTICK = 0x3,
+			WEAPON_KNIFE = 0x4,
+			WEAPON_BASEBALLBAT = 0x5,
+			WEAPON_SHOVEL = 0x6,
+			WEAPON_POOLCUE = 0x7,
+			WEAPON_KATANA = 0x8,
+			WEAPON_CHAINSAW = 0x9,
+			WEAPON_DILDO1 = 0xA,
+			WEAPON_DILDO2 = 0xB,
+			WEAPON_VIBE1 = 0xC,
+			WEAPON_VIBE2 = 0xD,
+			WEAPON_FLOWERS = 0xE,
+			WEAPON_CANE = 0xF,
+			WEAPON_GRENADE = 0x10,
+			WEAPON_TEARGAS = 0x11,
+			WEAPON_MOLOTOV = 0x12,
+			WEAPON_ROCKET = 0x13,
+			WEAPON_ROCKET_HS = 0x14,
+			WEAPON_FREEFALL_BOMB = 0x15,
+			WEAPON_PISTOL = 0x16,
+			WEAPON_PISTOL_SILENCED = 0x17,
+			WEAPON_DESERT_EAGLE = 0x18,
+			WEAPON_SHOTGUN = 0x19,
+			WEAPON_SAWNOFF = 0x1A,
+			WEAPON_SPAS12 = 0x1B,
+			WEAPON_MICRO_UZI = 0x1C,
+			WEAPON_MP5 = 0x1D,
+			WEAPON_AK47 = 0x1E,
+			WEAPON_M4 = 0x1F,
+			WEAPON_TEC9 = 0x20,
+			WEAPON_COUNTRYRIFLE = 0x21,
+			WEAPON_SNIPERRIFLE = 0x22,
+			WEAPON_RLAUNCHER = 0x23,
+			WEAPON_RLAUNCHER_HS = 0x24,
+			WEAPON_FTHROWER = 0x25,
+			WEAPON_MINIGUN = 0x26,
+			WEAPON_SATCHEL_CHARGE = 0x27,
+			WEAPON_DETONATOR = 0x28,
+			WEAPON_SPRAYCAN = 0x29,
+			WEAPON_EXTINGUISHER = 0x2A,
+			WEAPON_CAMERA = 0x2B,
+			WEAPON_NIGHTVISION = 0x2C,
+			WEAPON_INFRARED = 0x2D,
+			WEAPON_PARACHUTE = 0x2E,
+			WEAPON_UNUSED = 0x2F,
+			WEAPON_ARMOUR = 0x30
+		};
+
+		class CVector
+		{
+		public:
+			float fX, fY, fZ;
+		};
+
+		class CBulletInfo {
+		public:
+		public:
+			eWeaponType m_nWeaponType;
+			int      m_nDestroyTime;
+			bool     m_bExists;
+		private:
+			char _pad0D[3];
+		public:
+			CVector  m_vecPosition;
+			CVector  m_vecVelocity;
+			short    m_nDamage;
+		private:
+			char _pad2A[2];
+		};
+
+		class CWeaponInfo {
+		public:
+			unsigned int m_nWeaponFire;
+			float m_fTargetRange;
+			float m_fWeaponRange;
+			int m_nModelId1;
+			int m_nModelId2;
+			unsigned int m_nSlot;
+			struct CWeaponInfoFlags
+			{
+				unsigned int bCanAim : 1;
+				unsigned int bAimWithArm : 1;
+				unsigned int b1stPerson : 1;
+				unsigned int bOnlyFreeAim : 1;
+				unsigned int bMoveAim : 1;
+				unsigned int bMoveFire : 1;
+				unsigned int b06 : 1;
+				unsigned int b07 : 1;
+				unsigned int bThrow : 1;
+				unsigned int bHeavy : 1;
+				unsigned int bContinuosFire : 1;
+				unsigned int bTwinPistol : 1;
+				unsigned int bReload : 1;
+				unsigned int bCrouchFire : 1;
+				unsigned int bReload2Start : 1;
+				unsigned int bLongReload : 1;
+				unsigned int bSlowdown : 1;
+				unsigned int bRandSpeed : 1;
+				unsigned int bExpands : 1;
+			} m_nFlags;
+			unsigned int m_dwAnimGroup;
+			unsigned short m_nAmmoClip;
+			unsigned short m_nDamage;
+			CVector m_vecFireOffset;
+			unsigned int m_nSkillLevel;
+			unsigned int m_nReqStatLevel;
+			float m_fAccuracy;
+			float m_fMoveSpeed;
+			float m_fAnimLoopStart;
+			float m_fAnimLoopEnd;
+			unsigned int m_nAnimLoopFire;
+			unsigned int m_nAnimLoop2Start;
+			unsigned int m_nAnimLoop2End;
+			unsigned int m_nAnimLoop2Fire;
+			float m_fBreakoutTime;
+			float m_fSpeed;
+			float m_fRadius;
+			float m_fLifespan;
+			float m_fSpread;
+			unsigned short m_nAimOffsetIndex;
+			unsigned char m_nBaseCombo;
+			unsigned char m_nNumCombos;
+		};
+
+		typedef CWeaponInfo* (__cdecl* CWeaponInfo__GetWeaponInfo_t)(eWeaponType WeaponType, unsigned char ucSkill);
+		CWeaponInfo__GetWeaponInfo_t pCWeaponInfo__GetWeaponInfo_t = nullptr;
+
+	}
+}
